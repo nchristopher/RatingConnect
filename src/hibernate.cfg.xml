@@ -9,7 +9,7 @@
     <property name="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</property>
     <property name="hibernate.show_sql">true</property>
     <property name="hibernate.query.factory_class">org.hibernate.hql.classic.ClassicQueryTranslatorFactory</property>
-    <mapping resource="DBConnect/RatedCdr.hbm.xml"/>
+    <property name="hibernate.current_session_context_class">thread</property>
     <mapping resource="ratingconnect/RatedCdr.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

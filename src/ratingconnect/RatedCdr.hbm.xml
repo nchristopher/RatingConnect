@@ -36,7 +36,7 @@
             <column name="START_TIMESTAMP" length="23" not-null="true" />
         </property>
         <property name="user" type="string">
-            <column name="USER" length="99" not-null="true" />
+            <column name="[USER]" length="99" not-null="true" />
         </property>
         <property name="destination" type="string">
             <column name="DESTINATION" length="99" not-null="true" />
