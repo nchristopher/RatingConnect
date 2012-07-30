@@ -4,6 +4,9 @@
  */
 package ratingconnect;
 
+import java.sql.Date;
+import java.util.ArrayList;
+
 /**
  *
  * @author Nimil
@@ -16,6 +19,6 @@ public class RatingConnect {
     public static void main(String[] args) {
         // TODO code application logic here
         RatedCdrHelper rch = new RatedCdrHelper();
-        rch.getEvents("WN83063180", null);
+        ArrayList<RatedCdr> rCdrs = rch.getEvents("DFAN01", Date.valueOf("2012-06-30"));
     }
 }
