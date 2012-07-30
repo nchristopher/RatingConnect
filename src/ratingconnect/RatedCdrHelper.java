@@ -28,7 +28,7 @@ public class RatedCdrHelper {
        
         org.hibernate.Transaction tx = session.beginTransaction();
         Query q = session.createQuery("SELECT rCdr.id, rCdr.startTimestamp, rCdr.user, rCdr.destination, rCdr.caller, "
-                + "rCdr.duration FROM RatedCdr as rCdr WHERE rCdr.msn = '" + msn + "'").setResultTransformer(Transformers.aliasToBean(RatedCdr.class));    
+                + "rCdr.duration, rCdr.timeBand FROM RatedCdr as rCdr WHERE rCdr.msn = '" + msn + "'").setResultTransformer(Transformers.aliasToBean(RatedCdr.class));    
         return (ArrayList<RatedCdr>)q.list(); 
     }
 }

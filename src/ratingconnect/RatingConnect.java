@@ -16,6 +16,6 @@ public class RatingConnect {
     public static void main(String[] args) {
         // TODO code application logic here
         RatedCdrHelper rch = new RatedCdrHelper();
-        rch.getEvents("LN29752443", null);
+        rch.getEvents("WN83063180", null);
     }
 }
