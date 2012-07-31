@@ -18,7 +18,10 @@ public class RatingConnect {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        RatedCdrHelper rch = new RatedCdrHelper();
-        ArrayList<RatedCdr> rCdrs = rch.getEvents("DFAN01", Date.valueOf("2012-06-30"));
+        /*RatedCdrHelper rch = new RatedCdrHelper();
+        ArrayList<RatedCdr> rCdrs = rch.getEvents("DFAN01", Date.valueOf("2012-06-01"));
+        for(RatedCdr rCdr : rCdrs){
+            System.out.println("Time of Event : " + rCdr.getStartTimestamp().toString());
+        }*/
     }
 }

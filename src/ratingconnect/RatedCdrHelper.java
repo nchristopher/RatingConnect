@@ -4,43 +4,51 @@
  */
 package ratingconnect;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
+import org.joda.time.DateTime;
+import org.joda.time.MutableDateTime;
 
 /**
  *
  * @author Nimil
  */
 public class RatedCdrHelper {
-    
-    Session session = null;
+
+    private Session session = null;
 
     public RatedCdrHelper() {
         this.session = NewHibernateUtil.getSessionFactory().getCurrentSession();
     }
-    
-    
-    
-    public ArrayList<RatedCdr> getEvents(String msn, Date eventMonth){
-        Calendar calendar = Calendar.getInstance();
-        calendar.clear();
-        calendar.setTimeInMillis(eventMonth.getTime());
-        System.out.println("Maximum : " + calendar.getActualMaximum(calendar.DAY_OF_MONTH));
+
+    public ArrayList<RatedCdr> getEvents(String msn, Date eventMonth) {
+        DateTime dt = new DateTime(eventMonth);
         org.hibernate.Transaction tx = session.beginTransaction();
-        Query q = session.createQuery("FROM RatedCdr as rCdr WHERE rCdr.msn = '" + msn + "' AND rCdr.startTimestamp > " + getMinimum(calendar) +"AND rCdr.startTimestamp <" + getMaximum(calendar)).setResultTransformer(Transformers.aliasToBean(RatedCdr.class));    
-        return (ArrayList<RatedCdr>)q.list(); 
+        Criteria crit = session.createCriteria(RatedCdr.class);
+        crit.add(Restrictions.eq("msn", msn));
+        crit.add(Restrictions.between("startTimestamp", getMinimum(dt), getMaximum(dt)));
+        return (ArrayList<RatedCdr>) crit.list();
     }
 
-    private String getMinimum(Calendar calendar) {
-        
-        return calendar.getTime().getYear() + "-" + calendar.getTime().getMonth() + "-" + calendar.getActualMinimum(calendar.DAY_OF_MONTH);
+    private Date getMinimum(DateTime dateTime) {
+        MutableDateTime mdt = new MutableDateTime(dateTime);
+        mdt.addMonths(-1);
+        mdt.setDayOfMonth(1);
+        mdt.setMillisOfDay(0);
+        return (Date) mdt.toDate();
     }
 
-    private String getMaximum(Calendar calendar) {
-        return calendar.YEAR + "-" + calendar.MONTH + "-" +calendar.getActualMaximum(calendar.DAY_OF_MONTH);
+    private Date getMaximum(DateTime dateTime) {
+        MutableDateTime mdt = new MutableDateTime(dateTime);
+        mdt.addMonths(-1);
+        mdt.setDayOfMonth(dateTime.dayOfMonth().getMaximumValue());
+        mdt.setMillisOfDay(dateTime.millisOfDay().getMaximumValue());
+        return (Date) mdt.toDate();
     }
 }
